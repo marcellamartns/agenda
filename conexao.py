@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from cadastro import Cadastro
-from contatos import Contatos
+from usuario import Usuario
+from contato import Contato
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
@@ -23,3 +23,17 @@ class Conexao(object):
         qry = {"_id": ObjectId(id_usuario)}
         fld = {"$push": {"contatos": contato.dicionario_inserir_contato()}}
         a = self._colecao.update_one(qry, fld)
+        print(a.matched_count)
+
+    def atualizar_contato(self, id_usuario, contato):
+
+        qry = {"_id": id_usuario, "contatos._id": contato.id_}
+        fld = {"$set": {
+            "contatos.$.nome_contato": contato.nome_contato,
+            "contatos.$.telefone": contato.telefone,
+            "contatos.$.email": contato.email,
+            "contatos.$.complemento": contato.complemento
+            }
+        }
+        a = self._colecao.update_one(qry, fld)
+        # print(a.matched_count)

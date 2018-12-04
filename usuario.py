@@ -11,6 +11,14 @@ class Usuario(object):
         self._senha = senha
         self._contatos = contatos
 
+    @property
+    def id_(self):
+        return self._id
+
+    @property
+    def nome_usuario(self):
+        return self._nome_usuario
+
     def dicionario_inserir(self):
 
         return {
