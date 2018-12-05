@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block content %}
+<form method="POST">
+    <h1>Digite os dados do contato</h1>
+    <label>Nome:</label>
+    <div><input type="text" name="nomecontato"/></div>
+    <label>Telefone:</label>
+    <div><input type="text" name="telefone"/></div>
+    <label>Email:</label>
+    <div><input type="text" name="email"/></div>
+    <label>Complemento:</label>
+    <div><input type="text" name="complemento"/></div>
+
+    <div><button type="submit">Cadastrar contato</button></div>
+</form>
+
+{% end %}

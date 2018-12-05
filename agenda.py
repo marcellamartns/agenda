@@ -16,8 +16,13 @@ conexao = Conexao("agenda")
 # conexao.inserir_usuario(usuario)
 # print("Usuario ok")
 
-print(usuario.id_)
-conexao.inserir_contato("5c067bbf9dc6d619bd718da1", contato)
-print("Inserir contato ok")
+# print(usuario.id_)
+# conexao.inserir_contato("5c067bbf9dc6d619bd718da1", contato)
+# print("Inserir contato ok")
+
+# conexao.buca_usuario("marcela", "123")
 
 # conexao.atualizar_contato(usuario.id_, contato)
+
+s = conexao.busca_contatos("5c0811a49dc6d64c51d17e1b")
+print(s["email"])

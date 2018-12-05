@@ -23,7 +23,7 @@ class Conexao(object):
         qry = {"_id": ObjectId(id_usuario)}
         fld = {"$push": {"contatos": contato.dicionario_inserir_contato()}}
         a = self._colecao.update_one(qry, fld)
-        print(a.matched_count)
+        # print(a.matched_count)
 
     def atualizar_contato(self, id_usuario, contato):
 
@@ -37,3 +37,19 @@ class Conexao(object):
         }
         a = self._colecao.update_one(qry, fld)
         # print(a.matched_count)
+
+    def busca_usuario(self, usuario, senha):
+
+        qry = {"nome_usuario": usuario, "senha": senha}
+
+        return self._colecao.find_one(qry)
+
+    def busca_nome_usuario(self, nome_usuario):
+
+        return self._colecao.find_one({"nome_usuario": nome_usuario})
+
+    def busca_contatos(self, idusuario):
+
+        usuario = self._colecao.find_one({"_id": ObjectId(idusuario)})
+        for contatos in usuario["contatos"]:
+            return contatos

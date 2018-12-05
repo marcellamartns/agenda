@@ -1,0 +1,13 @@
+{% extends "template.html" %}
+
+{% block content %}
+<form method="POST">
+    <label>Digite seu nome de usuario:</label>
+    <div><input type="text" name="nomeusuario"/></div>
+    <label>Digite sua senha:</label>
+    <div><input type="text" name="senhausuario"/></div>
+    <div><button type="submit">Cadastrar</button></div>
+</form>
+
+<a href="/sair">Sair</a>
+{% end %}
