@@ -2,10 +2,10 @@
 
 {% block content %}
 <ul>
-    {% for contatos in contato %}
-        {% block contatos %}
-        <a href="/"> escape(contatos.nome_contato) }}</a>
-        {% end %}
+    {% for contato in contatos %}
+
+        <div><a href="/contato/{{contato._id}}"> {{contato.nome_contato}}</a></div>
+
     {% end %}
 </ul>
 

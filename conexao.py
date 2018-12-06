@@ -27,7 +27,7 @@ class Conexao(object):
 
     def atualizar_contato(self, id_usuario, contato):
 
-        qry = {"_id": id_usuario, "contatos._id": contato.id_}
+        qry = {"_id": ObjectId(id_usuario), "contatos._id": ObjectId(contato.id_)}
         fld = {"$set": {
             "contatos.$.nome_contato": contato.nome_contato,
             "contatos.$.telefone": contato.telefone,
@@ -51,5 +51,30 @@ class Conexao(object):
     def busca_contatos(self, idusuario):
 
         usuario = self._colecao.find_one({"_id": ObjectId(idusuario)})
+        contatos_lista = []
         for contatos in usuario["contatos"]:
-            return contatos
+
+            contato = Contato(contatos["_id"], contatos["nome_contato"],
+                              contatos["telefone"], contatos["email"],
+                              contatos["complemento"])
+            # print(contato)
+            contatos_lista.append(contato)
+        return contatos_lista
+
+    def busca_contato(self, id_usuario, id_contato):
+
+        qry = {"_id": ObjectId(id_usuario)}
+        fld = {
+            "contatos": {
+                "$elemMatch": {"_id": ObjectId(id_contato)}
+            }
+        }
+        usuario = self._colecao.find_one(qry, fld)
+        # print(usuario)
+        for contatos in usuario["contatos"]:
+
+            return Contato(contatos["_id"], contatos["nome_contato"],
+                           contatos["telefone"], contatos["email"],
+                           contatos["complemento"])
+
+

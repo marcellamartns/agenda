@@ -17,9 +17,6 @@ class MainHandler(tornado.web.RequestHandler):
         else:
             self.render("principal.html")
 
-
-
-
 class Cadastro(tornado.web.RequestHandler):
 
     def get(self):
@@ -44,24 +41,46 @@ class Cadastro(tornado.web.RequestHandler):
             conexao.inserir_usuario(novo_usuario)
             self.redirect("/autenticar")
 
-
 class Agenda(tornado.web.RequestHandler):
 
     def get(self):
-        self.render("agenda.html", contato="")
-
-    def post(self):
 
         conexao = Conexao("agenda")
         id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
-        us = conexao.busca_contatos(id_usuario)
-        contato = Contato(us["nome_contato"], us["telefone"], us["email"],
-                          us["complemento"])
-        self.redirect("aenda.html", contato=contato)
+        contatos = conexao.busca_contatos(id_usuario)
+        self.render("agenda.html", contatos=contatos)
+
+    def post(self):
+
+        self.render("agenda.html", contatos="")
+
+class ContatoHandler(tornado.web.RequestHandler):
+
+    def get(self, contato_id):
+
+        conexao = Conexao("agenda")
+        id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
+        contato = conexao.busca_contato(id_usuario, contato_id)
+        self.render("atualiza_contato.html", contato=contato)
+
+    def post(self, contato_id):
+
+        conexao = Conexao("agenda")
+        id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
+
+        nome = self.get_argument("nomecontato")
+        telefone = self.get_argument("telefone")
+        email = self.get_argument("email")
+        complemento = self.get_argument("complemento")
+        contato = Contato(id_=contato_id, nome_contato=nome, telefone=telefone, email=email,
+                          complemento=complemento)
+        conexao.atualizar_contato(id_usuario, contato)
+        self.render("atualiza_contato.html", contato=contato)
 
 class AdicionarContatos(tornado.web.RequestHandler):
 
     def get(self):
+
         self.render("add_contato.html")
 
     def post(self):
@@ -78,10 +97,10 @@ class AdicionarContatos(tornado.web.RequestHandler):
         conexao.inserir_contato(id_usuario, contato)
         self.redirect("/")
 
-
 class Autenticar(tornado.web.RequestHandler):
 
     def get(self):
+
         self.render("autenticar.html", teste="bibi")
 
     def post(self):
@@ -101,16 +120,16 @@ class Autenticar(tornado.web.RequestHandler):
 class Sair(tornado.web.RequestHandler):
 
     def get(self):
+
         self.clear_cookie("cookieagenda")
         self.redirect("/autenticar")
-
 
 def make_app():
     return tornado.web.Application([
         (r"/cadastro", Cadastro),
         (r"/autenticar", Autenticar),
         (r"/sair", Sair),
-
+        (r"/contato/([a-z0-9]+)", ContatoHandler),
 
         (r"/", MainHandler),
         (r"/agenda", Agenda),
