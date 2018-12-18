@@ -61,21 +61,31 @@ class ContatoHandler(tornado.web.RequestHandler):
         conexao = Conexao("agenda")
         id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
         contato = conexao.busca_contato(id_usuario, contato_id)
+
         self.render("atualiza_contato.html", contato=contato)
 
-    def post(self, contato_id):
+    def put(self, contato_id):
+
+        conexao = Conexao("agenda")
+
+        id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
+
+        json_data = json.loads(self.request.body.decode("utf-8"))
+        print(json_data)
+        contato = Contato(contato_id, json_data["nome"], json_data["telefone"],
+                          json_data["email"], json_data["complemento"])
+
+        conexao.atualizar_contato(id_usuario, contato)
+        self.render("atualiza_contato.html", contato=contato)
+
+    def delete(self, contato_id):
 
         conexao = Conexao("agenda")
         id_usuario = self.get_secure_cookie("cookieagenda").decode("utf-8")
 
-        nome = self.get_argument("nomecontato")
-        telefone = self.get_argument("telefone")
-        email = self.get_argument("email")
-        complemento = self.get_argument("complemento")
-        contato = Contato(id_=contato_id, nome_contato=nome, telefone=telefone, email=email,
-                          complemento=complemento)
-        conexao.atualizar_contato(id_usuario, contato)
-        self.render("atualiza_contato.html", contato=contato)
+        conexao.deleta_contato(id_usuario, contato_id)
+
+        self.write("ok")
 
 class AdicionarContatos(tornado.web.RequestHandler):
 
@@ -135,7 +145,8 @@ def make_app():
         (r"/agenda", Agenda),
         (r"/contatos", AdicionarContatos),
     ],
-    cookie_secret="jhlhçgguilyojhlfhlfyupfyoupfyufy"
+    cookie_secret="jhlhçgguilyojhlfhlfyupfyoupfyufy",
+    static_path="static"
     )
 
 if __name__ == "__main__":

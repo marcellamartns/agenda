@@ -28,5 +28,7 @@ conexao = Conexao("agenda")
 # for contato in s:
 #     print(contato.nome_contato)
 
-a= conexao.busca_contato("5c0811a49dc6d64c51d17e1b", "5c08180a9dc6d653b70bfc8e")
-print(a)
+# a= conexao.busca_contato("5c0811a49dc6d64c51d17e1b", "5c08180a9dc6d653b70bfc8e")
+# print(a)
+
+conexao.deleta_contato("5c0811a49dc6d64c51d17e1b", "5c08180a9dc6d653b70bfc8e")

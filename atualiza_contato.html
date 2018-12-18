@@ -2,19 +2,27 @@
 
 {% block content %}
 
+<input value="{{contato.id_}}" type="hidden" id="idContato"/>
+
 <form method="POST">
-    <h1>Digite os dados do contato</h1>
+    <h1>Atualizar contato</h1>
     <label>Nome:</label>
-    <div><input type="text" name="nomecontato" value="{{contato.nome_contato}}" /></div>
+    <div><input type="text" id="nomecontato" value="{{contato.nome_contato}}" /></div>
     <label>Telefone:</label>
-    <div><input type="text" name="telefone" value="{{contato.telefone}}"/></div>
+    <div><input type="text" id="telefone" value="{{contato.telefone}}"/></div>
     <label>Email:</label>
-    <div><input type="text" name="email" value="{{contato.email}}"/></div>
+    <div><input type="text" id="email" value="{{contato.email}}"/></div>
     <label>Complemento:</label>
-    <div><input type="text" name="complemento" value="{{contato.complemento}}"/></div>
+    <div><input type="text" id="complemento" value="{{contato.complemento}}"/></div>
 
-    <div><button type="submit">Atualizar contato</button></div>
+    <div><button type="button" onclick="atualizar()">Atualizar contato</button></div>
+    <div><button type="button" onclick="deletar()" >Excluir contato</button></div>
 </form>
-<div><a href="/"> Voltar</a></div>
+<br><br>
+<div><a href="/agenda"> Voltar</a></div>
 
+{% end %}
+
+{% block script %}
+    <script src="{{static_url('js/atualiza_contato.js')}}" type="text/javascript"></script>
 {% end %}

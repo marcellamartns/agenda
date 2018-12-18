@@ -77,4 +77,9 @@ class Conexao(object):
                            contatos["telefone"], contatos["email"],
                            contatos["complemento"])
 
+    def deleta_contato(self, id_usuario, id_contato):
+
+        qry = {"_id": ObjectId(id_usuario)}
+        fld = {"$pull": {"contatos": {"_id": ObjectId(id_contato)}}}
+        self._colecao.update_one(qry, fld)
 

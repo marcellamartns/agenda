@@ -3,11 +3,15 @@
 {% block content %}
 <form method="POST">
     <label>Digite seu nome de usuario:</label>
-    <div><input type="text" name="nomeusuario"/></div>
+    <div><input type="text" id="nomeusuario"/></div>
     <label>Digite sua senha:</label>
-    <div><input type="text" name="senhausuario"/></div>
-    <div><button type="submit">Cadastrar</button></div>
+    <div><input type="text" id="senhausuario"/></div>
+    <div><button type="button" onclick="cadastrar()">Cadastrar</button></div>
 </form>
 
 <a href="/sair">Sair</a>
+{% end %}
+
+{% block script %}
+    <script src="{{static_url('js/cadastro.js')}}" type="text/javascript"></script>
 {% end %}
